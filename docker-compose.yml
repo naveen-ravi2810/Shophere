@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  
+  user_service:
+    networks:
+      - postgres_network
+    env_file:
+      - .env
+    build: 
+      context: user_service
+      dockerfile: Dockerfile
+    container_name: user_service_backend
+    environment:
+      - POSTGRES_HOST=users_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=naveen
+      - POSTGRES_PASSWORD=tiger
+      - POSTGRESQL_USER_DATABASE=user_service
+    command: 
+      - "poetry"
+      - "run"
+      - "uvicorn"
+      - "main:app"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "8000"
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - users_db
+
+  users_db:
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=naveen
+      - POSTGRES_PASSWORD=tiger
+      - POSTGRES_DB=user_service
+    expose: 
+      - 5432
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge

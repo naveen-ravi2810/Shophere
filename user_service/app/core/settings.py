@@ -31,3 +31,11 @@ class DBURI(BaseSettings):
 
 
 db_uri = DBURI()
+
+
+class JWT(BaseSettings):
+    JWT_SECRET_KEY:str = os.environ.get("JWT_SECRET_KEY")
+    JWT_ACCESS_EXPIRE_TIME_IN_SEC:int = os.environ.get("JWT_ACCESS_EXPIRE_TIME_IN_SEC")
+    JWT_REFRESH_EXPIRE_TIME_IN_SEC: int = os.environ.get("JWT_REFRESH_EXPIRE_TIME_IN_SEC")
+
+jwt_config = JWT()

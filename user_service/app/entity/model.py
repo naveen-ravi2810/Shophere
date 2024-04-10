@@ -25,3 +25,13 @@ class UserCreate(UserLogin):
 
 class User(BaseUUID, UserCreate, table=True):
     is_verified: bool = Field(default=False)
+
+class UserProfileInfo(SQLModel):
+    phone: str
+    first_name: str
+    last_name: str
+    email: str
+    is_verified: bool
+    user_id: UUID
+    created_at: datetime = Field(default_factory=datetime.now)
+
